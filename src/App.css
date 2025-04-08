@@ -1,0 +1,54 @@
+
+/* 네브바 */
+.login-btn{
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px;
+    gap:5px;
+    cursor: pointer;
+}
+
+.nav-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.menu-list{
+    display: flex;
+    list-style-type: none;
+    margin:0;
+    padding:0;
+}
+.menu-list li{
+    padding: 10px
+}
+
+.menu-area{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 2%;
+}
+
+/* 검색어 */
+.search-area{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    position: absolute;
+    right:0;
+}
+.searchIcon{
+    font-size: 25px;
+}
+.searchText{
+    font-size: 17px;
+    border: 0;
+    border-radius: 15px;
+    outline: none;
+    background-color: rgb(233, 233, 233);
+
+}
