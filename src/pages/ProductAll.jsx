@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import ProductCard from "../components/ProductCard.jsx";
 
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 const ProductAll = () => {
     const [productList, setProductList] = useState([])
-    const getProducts = async() => {
-        let url =`http://localhost:3000/products`
+    const getProducts = async () => {
+        let url = `http://localhost:3000/products`
         let response = await fetch(url);
         let data = await response.json();
         setProductList(data)
@@ -14,7 +18,15 @@ const ProductAll = () => {
     }, []);
     return (
         <div>
-        <ProductCard />
+            <Container>
+                <Row>
+                    {productList.map((menu) => (
+                        <Col key={menu.id} lg={3}>
+                            <ProductCard item={menu}/>
+                        </Col>
+                    ))}
+                </Row>
+            </Container>
         </div>
     );
 };

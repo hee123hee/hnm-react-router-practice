@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProductCard = () => {
+const ProductCard = ({item}) => {
     return (
         <div>
             <img src="https://image.hm.com/assets/hm/f3/36/f336dc8a5c6333e61d6d06e3b04586a39c4b9b30.jpg?imwidth=396" />
