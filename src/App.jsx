@@ -4,7 +4,7 @@ import ProductAll from "./pages/ProductAll.jsx";
 import Login from "./pages/Login.jsx";
 import ProductDetail from "./pages/ProductDetail.jsx";
 import Navbar from "./components/Navbar.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 // 1. 전체 상품페이지, 로그인 페이지, 상품 상세페이지
 // 1-1 네이게이션 바
@@ -19,13 +19,15 @@ import {useState} from "react";
 
 function App() {
   const [authenticate, setAuthenticate] = useState(false) //true면 로그인이 됨.
-
+  useEffect(() => {
+    console.log('aaaa ? ',authenticate);
+  }, [authenticate]);
   return (
   <>
     <Navbar/>
     <Routes>
       <Route path="/" element={<ProductAll/>} />
-      <Route path="/login" element={<Login/>} />
+      <Route path="/login" element={<Login setAuthenticate={setAuthenticate}/>} />
       <Route path="/product/:id" element={<ProductDetail/>} />
     </Routes>
   </>
