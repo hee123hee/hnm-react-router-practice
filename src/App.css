@@ -52,9 +52,10 @@
     background-color: rgb(233, 233, 233);
 }
 
-.product-card{
-
-}
 .product-img{
-    width: 100%
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
 }
+
+

@@ -5,6 +5,7 @@ import Login from "./pages/Login.jsx";
 import ProductDetail from "./pages/ProductDetail.jsx";
 import Navbar from "./components/Navbar.jsx";
 import {useEffect, useState} from "react";
+import PrivateRoute from "./route/PrivateRoute.jsx";
 
 // 1. 전체 상품페이지, 로그인 페이지, 상품 상세페이지
 // 1-1 네이게이션 바
@@ -28,7 +29,7 @@ function App() {
     <Routes>
       <Route path="/" element={<ProductAll/>} />
       <Route path="/login" element={<Login setAuthenticate={setAuthenticate}/>} />
-      <Route path="/product/:id" element={<ProductDetail/>} />
+      <Route path="/product/:id" element={<PrivateRoute authenticate={authenticate}/>} />
     </Routes>
   </>
   )
