@@ -1,43 +1,52 @@
-import React, {useEffect, useState} from 'react';
-import ProductCard from "../components/ProductCard.jsx";
-
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import 'bootstrap/dist/css/bootstrap.min.css'
-import {useSearchParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import ProductCard from "../components/ProductCard";
+import { Row, Col, Container, Alert } from "react-bootstrap";
+import { useSearchParams } from "react-router-dom";
 
 const ProductAll = () => {
-    let [productList, setProductList] = useState([])
-    const [query, setQuery] = useSearchParams()
+    let [products, setProducts] = useState([]);
+    const [query, setQuery] = useSearchParams();
+    let [error, setError] = useState("");
 
     const getProducts = async () => {
-        let searchQuery = query.get("q") || "";
-        console.log("쿼리값은", searchQuery)
+        try {
+            let keyword = query.get("q") || "";
+            let url = `https://my-json-server.typicode.com/hee123hee/hnm-react-router-practice/products?q=${keyword}`;
+            let response = await fetch(url);
+            let data = await response.json();
+            if (data.length < 1) {
+                if (keyword !== "") {
+                    setError(`${keyword}와 일치하는 상품이 없습니다`);
+                } else {
+                    throw new Error("결과가 없습니다");
+                }
+            }
+            setProducts(data);
+        } catch (err) {
+            setError(err.message);
+        }
+    };
 
-        let url = `http://localhost:3000/products?q=${searchQuery}`;
-        let response = await fetch(url);
-        let data = await response.json();
-        setProductList(data)
-        console.log("data?", data)
-    }
     useEffect(() => {
-        console.log("검색어 바뀜", query.get('q'))
         getProducts();
     }, [query]);
-
     return (
-        <div>
-            <Container>
+        <Container>
+            {error ? (
+                <Alert variant="danger" className="text-center">
+                    {error}
+                </Alert>
+            ) : (
                 <Row>
-                    {productList.map((item) => (
-                        <Col key={item.id} lg={3}>
-                            <ProductCard item={item}/>
-                        </Col>
-                    ))}
+                    {products.length > 0 &&
+                        products.map((item) => (
+                            <Col md={3} sm={12} key={item.id}>
+                                <ProductCard item={item} />
+                            </Col>
+                        ))}
                 </Row>
-            </Container>
-        </div>
+            )}
+        </Container>
     );
 };
 

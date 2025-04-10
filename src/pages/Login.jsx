@@ -1,35 +1,27 @@
-import React from 'react';
-import {Form, Button} from "react-bootstrap";
-import Container from "react-bootstrap/Container";
-import {useNavigate} from "react-router-dom";
-// import 'bootstrap/dist/css/bootstrap.min.css';
-
-const Login = ({setAuthenticate}) => {
+import React from "react";
+import { Container, Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+const Login = ({ setAuthenticate, to }) => {
+    console.log("tototo", to);
     const navigate = useNavigate();
-    const loginUser = (e) => {
-        e.preventDefault();
-        console.log("login user function issue")
-        setAuthenticate(true)
-        navigate('/')
-    }
+    const login = (event) => {
+        event.preventDefault();
+        setAuthenticate(true);
+        navigate("/");
+    };
     return (
-        <Container>
-            <Form onSubmit={(e)=>loginUser(e)}>
+        <Container className="login-area">
+            <Form className="login-form" onSubmit={login}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email"/>
-                    <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
-                    </Form.Text>
+                    <Form.Control type="email" placeholder="Enter email" />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password"/>
+                    <Form.Control type="password" placeholder="Password" />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out"/>
-                </Form.Group>
+
                 <Button variant="danger" type="submit">
                     Login
                 </Button>
@@ -37,4 +29,5 @@ const Login = ({setAuthenticate}) => {
         </Container>
     );
 };
+
 export default Login;

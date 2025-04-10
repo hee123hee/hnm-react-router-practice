@@ -1,49 +1,61 @@
-import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
-import { Container, Row, Col, Form, Button } from 'react-bootstrap'
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Container, Row, Col, Button, Dropdown, Alert } from "react-bootstrap";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProductDetail = () => {
-    let{id} = useParams();
-    const [product, setProduct] = useState(null)
-    const getProductDetail = async ()=>{
-        // let url = `https://my-json-server.typicode.com/123hee123/hnm-react-router-practice/products/${id}`
-        let url = `http://localhost:3000/products/${id}`
-        let response = await fetch(url)
+    const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const { id } = useParams();
+    const getProductDetail = async () => {
+        setLoading(true);
+        let url = `https://my-json-server.typicode.com/hee123hee/hnm-react-router-practice/products/${id}`;
+        let response = await fetch(url);
         let data = await response.json();
-        setProduct(data)
-    }
+        setLoading(false);
+
+        setProduct(data);
+    };
     useEffect(() => {
         getProductDetail();
     }, []);
-
-
+    if (loading || product == null) return <h1>Loading</h1>;
     return (
-        <Container>
-            <Row>
-                <Col className="product-img">
-                    <img src={product?.img}/>
-                </Col>
-                <Col>
-                    <div className='detail-title'>
-                        <h4>{product?.title}</h4>
-                    </div>
-                    <div className='detail-price'>
-                        <h5>{product?.price} KRW</h5>
-                    </div>
+        <Container className="product-detail-card">
+            {error ? (
+                <Alert variant="danger" className="text-center">
+                    {error}
+                </Alert>
+            ) : (
+                <Row>
+                    <Col xs={12} md={6} className="product-detail-img">
+                        <img src={product.img} alt="제품이미지" />
+                    </Col>
+                    <Col xs={12} md={6}>
+                        <div className="product-info">{product.title}</div>
+                        <div className="product-info">₩ {product.price}</div>
+                        <div className="choice">
+                            {product.choice ? "Conscious choice" : ""}
+                        </div>
+                        <Dropdown className="drop-down">
+                            <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
+                                사이즈 선택
+                            </Dropdown.Toggle>
 
-                    <div>
-                        <Form.Select size="sm">
-                            <option>-</option>
-                            {product?.size.map((size,idx)=>(
-                                <option key={idx}>{size}</option>
-                            ))}
-                        </Form.Select>
-                    </div>
-                    <div className="d-grid gap-2 mt-2">
-                        <Button variant='danger'>추가</Button>
-                    </div>
-                </Col>
-            </Row>
+                            <Dropdown.Menu>
+                                {product?.size.length > 0 &&
+                                    product.size.map((item) => (
+                                        <Dropdown.Item href="#/action-1">{item}</Dropdown.Item>
+                                    ))}
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        <Button variant="dark" className="add-button">
+                            추가
+                        </Button>
+                    </Col>
+                </Row>
+            )}
         </Container>
     );
 };
