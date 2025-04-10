@@ -9,7 +9,16 @@ const Navbar = () => {
     const navigate = useNavigate()
     const goToLogin = ()=>{
         navigate("/login")
-    }
+    };
+    const search = (event) => {
+        if (event.key === "Enter"){
+            //입력한 검색어를 읽어와서
+            let keyword = event.target.value;
+            //url을 바꿔준다.
+            navigate(`/?q=${keyword}`);
+        }
+    };
+
     return (
         <div>
             {/*로그인 버튼*/}
